@@ -38,43 +38,50 @@ namespace HybridSearch
                 Console.WriteLine();
             }
 
-            // Main search loop
-            string searchKey;
-            do
+            // Interactive search (optional)
+            if (args.Length > 0 && args[0] == "--interactive")
             {
-                Console.Write("Enter product name to search (or 'exit' to quit): ");
-                searchKey = Console.ReadLine();
-
-                if (searchKey?.ToLower() == "exit")
-                    break;
-
-                if (string.IsNullOrWhiteSpace(searchKey))
-                    continue;
-
-                // Search for products matching the key
-                var foundProducts = products.Where(p => 
-                    p.Name.Contains(searchKey, StringComparison.OrdinalIgnoreCase)).ToList();
-
-                if (foundProducts.Count > 0)
+                string searchKey;
+                do
                 {
-                    foreach (var product in foundProducts)
+                    Console.Write("Enter product name to search (or 'exit' to quit): ");
+                    searchKey = Console.ReadLine();
+
+                    if (searchKey?.ToLower() == "exit")
+                        break;
+
+                    if (string.IsNullOrWhiteSpace(searchKey))
+                        continue;
+
+                    // Search for products matching the key
+                    var foundProducts = products.Where(p => 
+                        p.Name.Contains(searchKey, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                    if (foundProducts.Count > 0)
                     {
-                        Console.WriteLine($"✅ Знайдено: {product.Name}");
-                        Console.WriteLine($"Річний оборот: {product.Vi} тис. грн");
-                        Console.WriteLine($"Розмір партії: {product.Qi} шт");
-                        Console.WriteLine($"Норматив запасу: {product.Mi} шт");
+                        foreach (var product in foundProducts)
+                        {
+                            Console.WriteLine($"✅ Знайдено: {product.Name}");
+                            Console.WriteLine($"Річний оборот: {product.Vi} тис. грн");
+                            Console.WriteLine($"Розмір партії: {product.Qi} шт");
+                            Console.WriteLine($"Норматив запасу: {product.Mi} шт");
+                            Console.WriteLine();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"❌ Product '{searchKey}' not found.");
                         Console.WriteLine();
                     }
-                }
-                else
-                {
-                    Console.WriteLine($"❌ Product '{searchKey}' not found.");
-                    Console.WriteLine();
-                }
 
-            } while (true);
+                } while (true);
+            }
+            else
+            {
+                Console.WriteLine("To enable interactive search, run with --interactive flag");
+            }
 
-            Console.WriteLine("Goodbye!");
+            Console.WriteLine("\n✅ All calculations completed successfully!");
         }
     }
 }

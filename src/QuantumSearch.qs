@@ -22,7 +22,10 @@ namespace QuantumSearch {
         } apply {
             // Apply phase flip to |0...0⟩
             ApplyToEach(X, qubits);
-            Controlled Z([qubits[0]], qubits[1...nQubits-1]);
+            if (nQubits > 1) {
+                let targets = qubits[1..(nQubits-1)];
+                Controlled Z([qubits[0]], targets);
+            }
             ApplyToEach(X, qubits);
         }
     }
